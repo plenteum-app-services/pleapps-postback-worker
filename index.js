@@ -25,6 +25,7 @@ function spawnNewWorker () {
 
 /* Helps us to build the RabbitMQ connection string */
 function buildConnectionString (host, username, password) {
+  log(util.format('Setting up connection to %s@%s...', username, host))
   var result = ['amqp://']
 
   if (username.length !== 0 && password.length !== 0) {
