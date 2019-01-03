@@ -98,7 +98,8 @@ if (cluster.isMaster) {
               url: payload.request.callback,
               method: 'POST',
               json: true,
-              body: postbackPayload
+              body: postbackPayload,
+              timeout: Config.postTimeout
             }).then(() => {
               /* Success, we posted the message to the caller */
               log(util.format('Worker #%s: Successfully delivered message for %s ', cluster.worker.id, payload.address))
