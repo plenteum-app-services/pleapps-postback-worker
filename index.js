@@ -102,19 +102,19 @@ if (cluster.isMaster) {
               timeout: Config.postTimeout
             }).then(() => {
               /* Success, we posted the message to the caller */
-              log(util.format('Worker #%s: Successfully delivered message for %s ', cluster.worker.id, payload.address))
+              log(util.format('Worker #%s: Successfully delivered [%s] message for %s ', cluster.worker.id, payload.status, payload.address))
               return publicChannel.ack(message)
             }).catch(() => {
               if (payload.attempts >= Config.maximumDeliveryAttempts) {
                 /* That's it, we're done here */
-                log(util.format('Worker #%s: Callback failed to process for %s', cluster.worker.id, payload.address))
+                log(util.format('Worker #%s: [%s] Callback failed to process for %s', cluster.worker.id, payload.status, payload.address))
                 return publicChannel.ack(message)
               }
 
               /* We're going to try again but first, we're going to back off a little bit */
               const backoffTime = Math.floor(Math.log10(payload.attempts) * 60000)
               const seconds = Math.floor(backoffTime / 1000)
-              log(util.format('Worker #%s: Callback for %s [%s] re-queuing in %s seconds', cluster.worker.id, payload.address, payload.attempts, seconds))
+              log(util.format('Worker #%s: [%s] Callback for %s [%s] re-queuing in %s seconds', cluster.worker.id, payload.status, payload.address, payload.attempts, seconds))
               return setTimeout(() => {
                 /* Acknowledge the current message */
                 publicChannel.ack(message)
@@ -123,7 +123,7 @@ if (cluster.isMaster) {
             })
           } else {
             /* They didn't supply a valid callback, we're done here */
-            log(util.format('Worker #%s: No valid callback location available for processed payment to %s', cluster.worker.id, payload.address))
+            log(util.format('Worker #%s: No valid callback location available for processed payment to %s [%s]', cluster.worker.id, payload.address, payload.status))
             return publicChannel.ack(message)
           }
         }
