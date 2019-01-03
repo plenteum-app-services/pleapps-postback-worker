@@ -92,6 +92,21 @@ if (cluster.isMaster) {
             postbackPayload.txnHash = payload.transactionHash
           }
 
+          /* If we have an amount, add that int */
+          if (payload.amount) {
+            postbackPayload.amount = payload.amount
+          }
+
+          /* If we have blocksRemaining add that in */
+          if (payload.blocksRemaining) {
+            postbackPayload.blocksRemaining = payload.blocksRemaining
+          }
+
+          /* If we have confirmationsRemaining add that in */
+          if (payload.confirmationsRemaining) {
+            postbackPayload.confirmationsRemaining = payload.confirmationsRemaining
+          }
+
           /* If we have a URL that we can post to, then we're going to give it a try */
           if (payload.request.callback.substring(0, 4).toLowerCase() === 'http') {
             request({
