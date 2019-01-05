@@ -120,21 +120,9 @@ if (cluster.isMaster) {
               log(util.format('Worker #%s: Successfully delivered [%s] message for %s ', cluster.worker.id, payload.status, payload.address))
               return publicChannel.ack(message)
             }).catch(() => {
-              if (payload.attempts >= Config.maximumDeliveryAttempts) {
-                /* That's it, we're done here */
-                log(util.format('Worker #%s: [%s] Callback failed to process for %s', cluster.worker.id, payload.status, payload.address))
-                return publicChannel.ack(message)
-              }
-
-              /* We're going to try again but first, we're going to back off a little bit */
-              const backoffTime = Math.floor(Math.log10(payload.attempts) * 60000)
-              const seconds = Math.floor(backoffTime / 1000)
-              log(util.format('Worker #%s: [%s] Callback for %s [%s] re-queuing in %s seconds', cluster.worker.id, payload.status, payload.address, payload.attempts, seconds))
-              return setTimeout(() => {
-                /* Acknowledge the current message */
-                publicChannel.ack(message)
-                return publicChannel.sendToQueue(Config.queues.complete, Buffer.from(JSON.stringify(payload)), { persistent: true })
-              }, backoffTime)
+              /* Success, we posted the message to the caller */
+              log(util.format('Worker #%s: Failed to deliver [%s] message for %s ', cluster.worker.id, payload.status, payload.address))
+              return publicChannel.ack(message)
             })
           } else {
             /* They didn't supply a valid callback, we're done here */
