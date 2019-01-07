@@ -67,8 +67,6 @@ if (cluster.isMaster) {
         if (message !== null) {
           /* Parse the incoming message */
           var payload = JSON.parse(message.content.toString())
-          payload.attempts = payload.attempts || 0
-          payload.attempts++
 
           if (!payload.request.callback) {
             /* Caller did not provide a callback */
@@ -83,7 +81,8 @@ if (cluster.isMaster) {
             request: {
               address: payload.request.address,
               amount: payload.request.amount,
-              userDefined: payload.request.callerData
+              userDefined: payload.request.callerData,
+              signature: payload.signature
             }
           }
 
