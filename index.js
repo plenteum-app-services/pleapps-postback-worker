@@ -116,11 +116,11 @@ if (cluster.isMaster) {
               timeout: Config.postTimeout
             }).then(() => {
               /* Success, we posted the message to the caller */
-              log(util.format('Worker #%s: Successfully delivered [%s] message for %s ', cluster.worker.id, payload.status, payload.address))
+              log(util.format('Worker #%s: Successfully delivered [%s] message for %s to %s', cluster.worker.id, payload.status, payload.address, payload.request.callback))
               return publicChannel.ack(message)
             }).catch(() => {
               /* Success, we posted the message to the caller */
-              log(util.format('Worker #%s: Failed to deliver [%s] message for %s ', cluster.worker.id, payload.status, payload.address))
+              log(util.format('Worker #%s: Failed to deliver [%s] message for %s  to %s', cluster.worker.id, payload.status, payload.address, payload.request.callback))
               return publicChannel.ack(message)
             })
           } else {
