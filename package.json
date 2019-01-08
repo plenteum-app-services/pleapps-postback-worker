@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "amqplib": "^0.5.3",
+    "pem": "^1.13.2",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5"
   }

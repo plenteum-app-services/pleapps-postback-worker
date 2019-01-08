@@ -9,6 +9,9 @@ const RabbitMQ = require('amqplib')
 const cluster = require('cluster')
 const util = require('util')
 const request = require('request-promise-native')
+const MessageSigner = require('./lib/messageSigner.js')
+const signer = new MessageSigner()
+
 const cpuCount = require('os').cpus().length
 
 const publicRabbitHost = process.env.RABBIT_PUBLIC_SERVER || 'localhost'
@@ -81,8 +84,7 @@ if (cluster.isMaster) {
             request: {
               address: payload.request.address,
               amount: payload.request.amount,
-              userDefined: payload.request.callerData,
-              signature: payload.signature
+              userDefined: payload.request.callerData
             }
           }
 
@@ -108,12 +110,15 @@ if (cluster.isMaster) {
 
           /* If we have a URL that we can post to, then we're going to give it a try */
           if (payload.request.callback.substring(0, 4).toLowerCase() === 'http') {
-            request({
-              url: payload.request.callback,
-              method: 'POST',
-              json: true,
-              body: postbackPayload,
-              timeout: Config.postTimeout
+            signer.sign(postbackPayload, payload.privateKey).then((signature) => {
+              postbackPayload.signature = signature
+              return request({
+                url: payload.request.callback,
+                method: 'POST',
+                json: true,
+                body: postbackPayload,
+                timeout: Config.postTimeout
+              })
             }).then(() => {
               /* Success, we posted the message to the caller */
               log(util.format('Worker #%s: Successfully delivered [%s] message for %s to %s', cluster.worker.id, payload.status, payload.address, payload.request.callback))
