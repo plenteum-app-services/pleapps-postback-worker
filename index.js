@@ -93,7 +93,22 @@ if (cluster.isMaster) {
             postbackPayload.txnHash = payload.transactionHash
           }
 
-          /* If we have an amount, add that int */
+          /* If we have an amountReceived, add that in */
+          if (payload.amountReceived) {
+            postbackPayload.amountReceived = payload.amountReceived
+          }
+
+          /* If we have an amountSent, add that in */
+          if (payload.amountSent) {
+            postbackPayload.amountSent = payload.amountSent
+          }
+
+          /* If we have a networkFee, add that in */
+          if (payload.networkFee) {
+            postbackPayload.networkFee = payload.networkFee
+          }
+
+          /* If we have an amount, add that in */
           if (payload.amount) {
             postbackPayload.amount = payload.amount
           }
@@ -106,6 +121,11 @@ if (cluster.isMaster) {
           /* If we have confirmationsRemaining add that in */
           if (payload.confirmationsRemaining) {
             postbackPayload.confirmationsRemaining = payload.confirmationsRemaining
+          }
+
+          /* If we have the keys for the one-time use wallet, add that in */
+          if (payload.keys) {
+            postbackPayload.keys = payload.keys
           }
 
           /* If we have a URL that we can post to, then we're going to give it a try */
