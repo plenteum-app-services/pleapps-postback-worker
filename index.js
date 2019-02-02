@@ -101,6 +101,7 @@ if (cluster.isMaster) {
           /* If we have an amountSent, add that in */
           if (payload.amountSent) {
             postbackPayload.amountSent = payload.amountSent
+            postbackPayload.amount = payload.amountSent // This is provided for legacy support
           }
 
           /* If we have a networkFee, add that in */
