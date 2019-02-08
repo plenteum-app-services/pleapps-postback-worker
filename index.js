@@ -91,6 +91,11 @@ if (cluster.isMaster) {
           /* If we have a transaction hash add that in */
           if (payload.transactionHash) {
             postbackPayload.txnHash = payload.transactionHash
+
+            /* If we also have a transaction private key, let's send that back as well */
+            if (payload.transactionPrivateKey) {
+              postbackPayload.txnPrivateKey = payload.transactionPrivateKey
+            }
           }
 
           /* If we have an amountReceived, add that in */
