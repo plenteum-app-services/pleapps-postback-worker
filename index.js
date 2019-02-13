@@ -136,15 +136,25 @@ if (cluster.isMaster) {
 
           /* If we have a URL that we can post to, then we're going to give it a try */
           if (payload.request.callback.substring(0, 4).toLowerCase() === 'http') {
-            signer.sign(postbackPayload, payload.privateKey).then((signature) => {
-              postbackPayload.signature = signature
-              return request({
-                url: payload.request.callback,
-                method: 'POST',
-                json: true,
-                body: postbackPayload,
-                timeout: Config.postTimeout
-              })
+            request({
+              url: payload.request.callback,
+              method: 'POST',
+              json: true,
+              body: postbackPayload,
+              headers: {
+                digest: util.format('SHA-256=', signer.digest(postbackPayload, 'base64'))
+              },
+              httpSignature: {
+                algorithm: 'rsa-sha256',
+                headers: [
+                  '(request-target)',
+                  'date',
+                  'digest'
+                ],
+                keyId: postbackPayload.address,
+                key: Buffer.from(payload.privateKey, 'hex')
+              },
+              timeout: Config.postTimeout
             }).then(() => {
               /* Success, we posted the message to the caller */
               log(util.format('Worker #%s: Successfully delivered [%s] message for %s to %s', cluster.worker.id, payload.status, payload.address, payload.request.callback))
