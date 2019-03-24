@@ -2,6 +2,5 @@
   "queues": {
     "complete": "complete.wallet"
   },
-  "maximumDeliveryAttempts": 5,
   "postTimeout": 5000
 }
