@@ -59,6 +59,13 @@ if (cluster.isMaster) {
       var publicRabbit = await RabbitMQ.connect(buildConnectionString(publicRabbitHost, publicRabbitUsername, publicRabbitPassword))
       var publicChannel = await publicRabbit.createChannel()
 
+      publicRabbit.on('error', (error) => {
+        throw new Error(error)
+      })
+      publicChannel.on('error', (error) => {
+        throw new Error(error)
+      })
+
       await publicChannel.assertQueue(Config.queues.complete, {
         durable: true
       })
