@@ -4,6 +4,7 @@
 
 'use strict'
 
+require('dotenv').config()
 const Config = require('./config.json')
 const RabbitMQ = require('amqplib')
 const cluster = require('cluster')
