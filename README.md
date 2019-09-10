@@ -1,6 +1,6 @@
-# TurtlePay™: Postback Worker
+# Ple App Services: Postback Worker
 
-This repository contains the worker that processes the postback requests as a result of various actions performed by the TurtlePay™ platform.
+This repository contains the worker that processes the postback requests as a result of various actions performed by the Plenteum App Services platform.
 
 ## Prerequisites
 
@@ -16,13 +16,13 @@ We know that this documentation needs cleaned up and made easier to read. We'll 
 1) Clone this repository to wherever you'd like the API to run:
 
 ```bash
-git clone https://github.com/TurtlePay/turtlepay-postback-worker
+git clone https://github.com/plenteum-app-services/pleapps-postback-worker
 ```
 
 2) Install the required Node.js modules
 
 ```bash
-cd turtlepay-postback-worker && npm install
+cd pleapps-postback-worker && npm install
 ```
 
 3) Use your favorite text editor to change the values as necessary in `config.json`
@@ -50,8 +50,9 @@ node index.js
 ```bash
 npm install -g pm2@latest
 pm2 startup
-pm2 start index.js --name turtlepay-postback-worker -i max
+pm2 start index.js --name pleapps-postback-worker -i max
 pm2 save
 ```
 
 ###### (c) 2018-2019 TurtlePay™ Development Team
+###### (c) 2018-2019 Plenteum Development Team

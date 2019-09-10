@@ -43,7 +43,7 @@ function buildConnectionString (host, username, password) {
 }
 
 if (cluster.isMaster) {
-  console.log('Starting TurtlePay Postback Service...')
+  console.log('Starting PLE App Services Postback Service...')
 
   for (var cpuThread = 0; cpuThread < cpuCount; cpuThread++) {
     spawnNewWorker()

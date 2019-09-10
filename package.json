@@ -1,7 +1,7 @@
 {
-  "name": "turtlepay-postback-worker",
+  "name": "pleapps-postback-worker",
   "version": "0.0.5",
-  "description": "TurtlePay Postback Worker",
+  "description": "Plenteum App Services Postback Worker",
   "main": "index.js",
   "scripts": {
     "test": "standard",
@@ -9,17 +9,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TurtlePay/turtlepay-postback-worker.git"
+    "url": "git+https://github.com/plenteum-app-services/pleapps-postback-worker.git"
   },
   "keywords": [
-    "TurtlePay"
+    "Plenteum",
+    "Plenteum App Services"
   ],
   "author": "Brandon Lehmann <brandonlehmann@gmail.com>",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/TurtlePay/turtlepay-postback-worker/issues"
+    "url": "https://github.com/plenteum-app-services/pleapps-postback-worker/issues"
   },
-  "homepage": "https://github.com/TurtlePay/turtlepay-postback-worker#readme",
+  "homepage": "https://github.com/plenteum-app-services/pleapps-postback-worker/#readme",
   "devDependencies": {
     "standard": "^13.1.0"
   },
